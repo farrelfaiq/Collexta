@@ -20,5 +20,5 @@ RUN chmod +x /app/pocketbase
 EXPOSE 8090
 
 # Run PocketBase and poitn too hooksDir
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--hooksDir=/pb_hooks"]
+CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--cors=https://collexta.my.id"]
 
