@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/pocketbase/pocketbase"
-	"github.com/pocketbase/pocketbase/plugins/migratecmd"
-	"github.com/pocketbase/pocketbase/core"
 	"log"
 	"net/http"
+
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
 )
 
 func main() {
 	app := pocketbase.New()
 
-	// Tambahkan Middleware CORS
+	// Middleware CORS
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.Use(func(next http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -27,8 +27,6 @@ func main() {
 		})
 		return nil
 	})
-
-	migratecmd.MustRegister(app, app.RootCmd)
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
