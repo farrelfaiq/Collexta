@@ -1,0 +1,14 @@
+# Ignore Windows binary
+*.exe
+
+# Ignore docs
+*.md
+
+# Ignore license files
+LICENSE*
+LICENSE.md
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
