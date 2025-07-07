@@ -1,24 +1,19 @@
-# Use a small and efficient base image
-FROM alpine:latest
+FROM golang:1.21-alpine
 
-# Set working directory
+# Set workdir
 WORKDIR /app
 
-# Install optional dependencies (like SQLite and timezone support)
-RUN apk add --no-cache sqlite tzdata
+# Install SQLite & timezone
+RUN apk add --no-cache git sqlite tzdata
 
-# Copy the PocketBase binary and data folders
-COPY pocketbase /app/pocketbase
-COPY pb_data /app/pb_data
-COPY pb_migrations /app/pb_migrations
-COPY pb_hooks /pb_hooks
+# Copy semua file project ke image
+COPY . .
 
-# Make sure the binary is executable
-RUN chmod +x /app/pocketbase
+# Build PocketBase + custom hooks
+RUN go build -o app .
 
-# Expose the default PocketBase port
+# Expose port
 EXPOSE 8090
 
-# Run PocketBase and poitn too hooksDir
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--hooksDir=/pb_hooks"]
-
+# Jalankan app hasil build
+CMD ["./app", "serve", "--http=0.0.0.0:8090"]

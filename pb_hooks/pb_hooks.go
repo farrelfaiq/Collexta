@@ -11,11 +11,11 @@ import (
 func main() {
 	app := pocketbase.New()
 
-	// Middleware CORS
+	// Tambahkan Middleware CORS
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.Use(func(next http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				w.Header().Set("Access-Control-Allow-Origin", "*") // or use "https://collexta.my.id"
+				w.Header().Set("Access-Control-Allow-Origin", "*")
 				w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
 				w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 				if r.Method == http.MethodOptions {
@@ -28,7 +28,6 @@ func main() {
 		return nil
 	})
 
-	// Optional: run DB migration if needed
 	migratecmd.MustRegister(app, app.RootCmd)
 
 	if err := app.Start(); err != nil {
