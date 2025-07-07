@@ -15,7 +15,7 @@ RUN apk add --no-cache sqlite tzdata
 
 COPY --from=builder /app/pocketbase /app/pocketbase
 COPY pb_data /app/pb_data
-COPY pb_public /app/pb_public
+COPY pb_migrations /app/pb_migrations
 
 RUN chmod +x /app/pocketbase
 
