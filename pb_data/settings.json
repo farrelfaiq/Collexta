@@ -1,0 +1,8 @@
+{
+  "cors": {
+    "enabled": true,
+    "allowedOrigins": ["https://collexta.my.id"],
+    "allowedMethods": ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    "allowedHeaders": ["Authorization", "Content-Type"]
+  }
+}
