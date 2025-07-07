@@ -1,23 +1,24 @@
-# Use a small and efficient base image
+# --- STAGE 1: Build binary with hooks ---
+FROM golang:1.20 as builder
+
+WORKDIR /app
+COPY . .
+
+# Build file `pb_hooks.go` menjadi binary bernama `pocketbase`
+RUN go build -o pocketbase pb_hooks/pb_hooks.go
+
+# --- STAGE 2: Deploy binary ---
 FROM alpine:latest
 
-# Set working directory
 WORKDIR /app
-
-# Install optional dependencies (like SQLite and timezone support)
 RUN apk add --no-cache sqlite tzdata
 
-# Copy the PocketBase binary and data folders
-COPY pocketbase /app/pocketbase
+COPY --from=builder /app/pocketbase /app/pocketbase
 COPY pb_data /app/pb_data
-COPY pb_migrations /app/pb_migrations
-COPY pb_hooks /pb_hooks
+COPY pb_public /app/pb_public
 
-# Make sure the binary is executable
 RUN chmod +x /app/pocketbase
 
-# Expose the default PocketBase port
 EXPOSE 8090
 
-# Run PocketBase and point to hooksDir
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--hooksDir=/pb_hooks"]
+CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090"]
