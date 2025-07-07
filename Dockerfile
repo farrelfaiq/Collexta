@@ -11,6 +11,7 @@ RUN apk add --no-cache sqlite tzdata
 COPY pocketbase /app/pocketbase
 COPY pb_data /app/pb_data
 COPY pb_migrations /app/pb_migrations
+COPY pb_hooks /pb_hooks
 
 # Make sure the binary is executable
 RUN chmod +x /app/pocketbase
@@ -18,5 +19,6 @@ RUN chmod +x /app/pocketbase
 # Expose the default PocketBase port
 EXPOSE 8090
 
-# Run PocketBase
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090"]
+# Run PocketBase and poitn too hooksDir
+CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--hooksDir=/pb_hooks"]
+
